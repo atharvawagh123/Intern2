@@ -308,13 +308,15 @@ h1 {
     height: 400px; /* Increased height of the card image */
     object-fit: cover;
 }
-
+.card p {
+     font-size: 1.2em;
+}
 .card-content {
     padding: 20px;
 }
 
 .card-title {
-    font-size: 1.2em;
+    font-size: 2.2em;
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
@@ -392,19 +394,19 @@ h1 {
         }
         .product-name {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 2.1rem;
             margin-bottom: 5px;
             color: #2c3e50;
         }
         .product-description {
             color: #7f8c8d;
-            font-size: 0.85rem;
+            font-size: 1.1em;
             margin-bottom: 10px;
         }
         .product-price {
             font-weight: 600;
             color: #e74c3c;
-            font-size: 1rem;
+            font-size: 1.1em;
             display: flex;
             align-items: center;
             margin-bottom: 10px;
