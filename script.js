@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+/*
 // Smooth scrolling function
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -76,4 +77,40 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
-});
+});*/
+
+// Render the product list
+function displayProducts(products) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = ''; // Clear previous products
+
+    products.forEach(product => {
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-card");
+
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p class="product-price">Price: Rp ${product.price.toLocaleString()}</p>
+            ${product.discount ? `<p class="product-discount">Discount: ${product.discount}%</p>` : ''}
+        `;
+
+        productList.appendChild(productCard);
+    });
+}
+
+// Initial display of all products
+displayProducts(products);
+
+// Search products based on input
+function searchProducts() {
+    const searchTerm = document.getElementById("search-bar").value.toLowerCase();
+
+    const filteredProducts = products.filter(product => {
+        return product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm);
+    });
+
+    displayProducts(filteredProducts);
+}
