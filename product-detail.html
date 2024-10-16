@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Furniro Logo"> <!-- Add your logo here -->
+            <span>E-Cart</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="http://127.0.0.1:5500/Search.html">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="product-detail-2"></div> <!-- ID for displaying product details -->
+
+  
+    <script>
+        // Assuming the products array is defined in script.js or you can define it here
+        const products = [
+            { id: 1, name: "Syltherine", description: "Stylish cafe chair", price: 2500000, originalPrice: 3500000, discount: 30, image: "image 100.png" },
+            { id: 2, name: "Leviosa", description: "Stylish cafe chair", price: 2500000, image: "image 101.png" },
+            { id: 3, name: "Lolito", description: "Luxury big sofa", price: 7000000, originalPrice: 14000000, discount: 50, image: "image 106.png" },
+            { id: 4, name: "Respira", description: "Outdoor bar table and stool", price: 500000, isNew: true, image: "image 101.png" },
+            { id: 5, name: "Grifo", description: "Night lamp", price: 1500000, image: "image 100.png" },
+            { id: 6, name: "Muggo", description: "Small mug", price: 150000, isNew: true, image: "image 106.png" },
+            { id: 7, name: "Pingky", description: "Cute bed set", price: 7000000, originalPrice: 14000000, discount: 50, image: "image 101.png" },
+            { id: 8, name: "Potty", description: "Minimalist flower pot", price: 500000, isNew: true, image: "image 106.png" },
+            { id: 9, name: "Doodle", description: "Artistic sketchbook", price: 300000, image: "image 100.png" },
+            { id: 10, name: "Bubble", description: "High-quality bubble wrap", price: 200000, image: "image 101.png" }
+        ];
+
+        // Get the product ID from the URL
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id'); // Assuming the URL has a query like ?id=1
+        console.log(productId);
+
+        displayProductDetail(productId); // Call the function to display product details
+
+        // Function to display product details
+        function displayProductDetail(productId) {
+            const productDetail = document.getElementById("product-detail-2");
+            const product = products.find(p => p.id === parseInt(productId));
+
+            if (product) {
+                productDetail.innerHTML = `
+                    <h1>${product.name}</h1>
+                    <img src="${product.image}" alt="${product.name}">
+                    <p>${product.description}</p>
+                    <p>Price: Rp ${product.price.toLocaleString()}</p>
+                `;
+            } else {
+                productDetail.innerHTML = `<p>Product not found.</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

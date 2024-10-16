@@ -1,12 +1,14 @@
 const products = [
-    { name: "Syltherine", description: "Stylish cafe chair", price: 2500000, originalPrice: 3500000, discount: 30, image: "image 100.png" },
-    { name: "Leviosa", description: "Stylish cafe chair", price: 2500000, image: "image 101.png" },
-    { name: "Lolito", description: "Luxury big sofa", price: 7000000, originalPrice: 14000000, discount: 50, image: "image 106.png" },
-    { name: "Respira", description: "Outdoor bar table and stool", price: 500000, isNew: true, image: "image 101.png" },
-    { name: "Grifo", description: "Night lamp", price: 1500000, image: "image 100.png" },
-    { name: "Muggo", description: "Small mug", price: 150000, isNew: true, image: "image 106.png" },
-    { name: "Pingky", description: "Cute bed set", price: 7000000, originalPrice: 14000000, discount: 50, image: "image 101.png" },
-    { name: "Potty", description: "Minimalist flower pot", price: 500000, isNew: true, image: "image 106.png" },
+    { id: 1, name: "Syltherine", description: "Stylish cafe chair", price: 2500000, originalPrice: 3500000, discount: 30, image: "image 100.png" },
+    { id: 2, name: "Leviosa", description: "Stylish cafe chair", price: 2500000, image: "image 101.png" },
+    { id: 3, name: "Lolito", description: "Luxury big sofa", price: 7000000, originalPrice: 14000000, discount: 50, image: "image 106.png" },
+    { id: 4, name: "Respira", description: "Outdoor bar table and stool", price: 500000, isNew: true, image: "image 101.png" },
+    { id: 5, name: "Grifo", description: "Night lamp", price: 1500000, image: "image 100.png" },
+    { id: 6, name: "Muggo", description: "Small mug", price: 150000, isNew: true, image: "image 106.png" },
+    { id: 7, name: "Pingky", description: "Cute bed set", price: 7000000, originalPrice: 14000000, discount: 50, image: "image 101.png" },
+    { id: 8, name: "Potty", description: "Minimalist flower pot", price: 500000, isNew: true, image: "image 106.png" },
+    { id: 9, name: "Doodle", description: "Artistic sketchbook", price: 300000, image: "image 100.png" },
+    { id: 10, name: "Bubble", description: "High-quality bubble wrap", price: 200000, image: "image 101.png" }
 ];
 
 let currentProductIndex = 0; // Keep track of the current product index
@@ -35,6 +37,11 @@ function createProductCard(product) {
 
 function renderProducts() {
     const productGrid = document.getElementById('productGrid');
+    if (!productGrid) {
+        console.error("Product grid not found!");
+        return;
+    }
+
     const endIndex = currentProductIndex + productsPerLoad; // Calculate the end index
     const productHTML = products.slice(currentProductIndex, endIndex).map(createProductCard).join('');
     productGrid.insertAdjacentHTML('beforeend', productHTML);
@@ -45,43 +52,40 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts(); // Load the first set of products
 
     const showMoreButton = document.getElementById('showMore');
-    showMoreButton.addEventListener('click', () => {
-        if (currentProductIndex < products.length) {
-            renderProducts(); // Load the next set of products
-        }
+    if (showMoreButton) {
+        showMoreButton.addEventListener('click', () => {
+            if (currentProductIndex < products.length) {
+                renderProducts(); // Load the next set of products
+            }
 
-        // Hide the button if all products are displayed
-        if (currentProductIndex >= products.length) {
-            showMoreButton.classList.add('hidden');
-        }
-    });
+            // Hide the button if all products are displayed
+            if (currentProductIndex >= products.length) {
+                showMoreButton.classList.add('hidden');
+            }
+        });
+    }
 
-    document.getElementById('productGrid').addEventListener('click', (e) => {
-        if (e.target.classList.contains('add-to-cart')) {
-            alert('Product added to cart!');
-        }
-    });
+    const productGrid = document.getElementById('productGrid');
+    if (productGrid) {
+        productGrid.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                alert('Product added to cart!');
+            }
+        });
+    }
+
+    // Initial display of all products
+    displayProducts(products);
 });
-/*
-// Smooth scrolling function
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
 
-        const targetElement = document.querySelector(this.getAttribute('href'));
-
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 50,  // Adjust this offset as needed
-                behavior: 'smooth'
-            });
-        }
-    });
-});*/
-
-// Render the product list
+// Consolidated displayProducts function
 function displayProducts(products) {
     const productList = document.getElementById("product-list");
+    if (!productList) {
+        console.error("Product list not found!");
+        return;
+    }
+
     productList.innerHTML = ''; // Clear previous products
 
     products.forEach(product => {
@@ -90,18 +94,25 @@ function displayProducts(products) {
 
         productCard.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <p class="product-price">Price: Rp ${product.price.toLocaleString()}</p>
-            ${product.discount ? `<p class="product-discount">Discount: ${product.discount}%</p>` : ''}
+            <div class="product-details">
+                <h3><a href="product-detail.html?id=${product.id}" class="product-title">${product.name}</a></h3>
+                <p>${product.description}</p>
+                <p class="product-price">Price: Rp ${product.price.toLocaleString()}</p>
+                ${product.discount ? `<p class="product-discount">Discount: ${product.discount}%</p>` : ''}
+            </div>
         `;
 
         productList.appendChild(productCard);
     });
-}
 
-// Initial display of all products
-displayProducts(products);
+    // Add click event to product titles for navigation
+    document.querySelectorAll(".product-title").forEach(title => {
+        title.addEventListener("click", function () {
+            const productId = this.getAttribute("data-id");
+            window.location.href = `product-detail.html?id=${productId}`;
+        });
+    });
+}
 
 // Search products based on input
 function searchProducts() {
@@ -114,3 +125,4 @@ function searchProducts() {
 
     displayProducts(filteredProducts);
 }
+

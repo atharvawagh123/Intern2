@@ -596,58 +596,151 @@ footer {
         font-size: 16px;
     }
 }
-.search-container {
-    width: 100%;
-    padding: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+/* Centering the search bar and button */
+.search-part {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
 }
 
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Adjusted search bar width */
 #search-bar {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
+    width: 250px; /* Increased width for the search bar */
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
 }
 
+#search-button {
+    padding: 8px 12px;
+    margin-left: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #45a049;
+}
+
+/* Product list styles */
 #product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    display: flex; /* Use flexbox for vertical layout */
+    flex-direction: column; /* Vertical stacking */
+    gap: 20px; /* Space between product cards */
     padding: 20px;
 }
 
+/* Styles for each product card */
 .product-card {
+    display: flex; /* Align image and details in a row */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left; /* Left-align text for better visibility */
+    width: 500px; /* Fixed width for the product card */
+    max-width: 1000px; /* Maximum width for larger displays */
+    margin: auto; /* Center the product card */
 }
 
 .product-card img {
-    max-width: 100%;
+    max-width: 150px; /* Increased image size */
     height: auto;
-    display: block;
-    margin-bottom: 10px;
+    margin-right: 20px; /* Space between image and text */
 }
 
+.product-details {
+    display: flex; /* Flex for details to stack vertically */
+    flex-direction: column; /* Stack details vertically */
+    gap: 10px;
+}
+
+/* Styling for product details */
 .product-card h3 {
-    font-size: 18px;
-    margin: 10px 0;
+    font-size: 20px; /* Larger title font size */
+    margin: 0; /* Reset margin for title */
+    color: #333; /* Title color */
 }
 
 .product-card p {
-    margin: 5px 0;
+    margin: 5px 0; /* Vertical spacing for paragraph elements */
 }
 
 .product-price {
-    font-size: 16px;
+    font-size: 18px; /* Larger price font size */
     font-weight: bold;
+    color: #2a9d8f; /* Price color */
 }
 
 .product-discount {
     color: red;
 }
+
+/* Hover effects for product card */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1024px) {
+    #product-list {
+        padding: 10px; /* Reduced padding for medium screens */
+    }
+}
+
+@media (max-width: 600px) {
+    #search-bar {
+        width: 100%; /* Full width on small screens */
+    }
+
+    #search-button {
+        width: 100%; /* Full width for button */
+        margin-left: 0; /* Remove left margin */
+    }
+
+    .product-card {
+        flex-direction: column; /* Stack image and text vertically */
+        width: 100%; /* Full width for mobile */
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .product-card img {
+        margin-right: 0; /* Remove right margin for stacked layout */
+        max-width: 100%; /* Ensure image fits well */
+        margin-bottom: 15px; /* Space between image and details */
+    }
+
+    .product-details {
+        margin-left: 0; /* Remove left margin on small screens */
+    }
+
+    .product-card h3 {
+        font-size: 18px; /* Adjust heading size for small screens */
+    }
+
+    .product-price {
+        font-size: 16px; /* Adjust price font size for small screens */
+    }
+
+    .product-card p {
+        font-size: 14px; /* Adjust paragraph font size */
+    }
+}
+

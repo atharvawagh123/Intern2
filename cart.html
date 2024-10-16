@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+
+<body>
+    <header>
+        <h1>Your Shopping Cart</h1>
+        <a href="index.html">Back to Products</a>
+    </header>
+    <main>
+        <div id="cart-items"></div>
+        <div id="total-price"></div>
+        <button id="checkout-button">Checkout</button>
+    </main>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || []; // Retrieve cart from local storage
+
+        // Function to display cart items
+        function displayCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+                document.getElementById('total-price').innerHTML = '';
+                return;
+            }
+
+            let totalPrice = 0;
+            cart.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.innerHTML = `
+                    <h2>${product.name}</h2>
+                    <img src="${product.image}" alt="${product.name}" style="width: 100px;">
+                    <p>Price: Rp ${product.price.toLocaleString()}</p>
+                    <p>Quantity: ${product.quantity}</p>
+                    <button onclick="removeFromCart(${product.id})">Remove</button>
+                `;
+                cartItemsContainer.appendChild(productElement);
+                totalPrice += product.price * product.quantity; // Calculate total price
+            });
+
+            document.getElementById('total-price').innerHTML = `Total Price: Rp ${totalPrice.toLocaleString()}`;
+        }
+
+        // Function to remove a product from the cart
+        function removeFromCart(productId) {
+            cart = cart.filter(product => product.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
+            displayCartItems(); // Refresh cart display
+        }
+
+        // Checkout button click event (placeholder)
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            alert('Proceeding to checkout...'); // Add your checkout logic here
+        });
+
+        // Display cart items on page load
+        displayCartItems();
+    </script>
+</body>
+
+</html>
