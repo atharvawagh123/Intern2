@@ -10,26 +10,44 @@ const products = [
     { id: 9, name: "Doodle", description: "Artistic sketchbook", price: 300000, image: "image 100.png" },
     { id: 10, name: "Bubble", description: "High-quality bubble wrap", price: 200000, image: "image 101.png" }
 ];
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('.nav-links a');
+
+    links.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default anchor behavior
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+                // Scroll to the target section smoothly
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
 
 let currentProductIndex = 0; // Keep track of the current product index
 const productsPerLoad = 4; // Number of products to load each time
-
 function createProductCard(product) {
     return `
-        <div class="product-card">
-            <div class="product-image-container">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                ${product.discount ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
-                ${product.isNew ? '<span class="new-badge">New</span>' : ''}
+        <div class="item-container">
+            <div class="image-box">
+                <img src="${product.image}" alt="${product.name}" class="thumbnail">
+                ${product.discount ? `<span class="discount-tag">-${product.discount}%</span>` : ''}
+                ${product.isNew ? '<span class="badge-new">New</span>' : ''}
             </div>
-            <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <p class="product-price">
+            <div class="details-section">
+                <h3 class="item-title">${product.name}</h3>
+                <p class="item-description">${product.description}</p>
+                <p class="item-cost">
                     Rp ${product.price.toLocaleString()}
-                    ${product.originalPrice ? `<span class="original-price">Rp ${product.originalPrice.toLocaleString()}</span>` : ''}
+                    ${product.originalPrice ? `<span class="previous-price">Rp ${product.originalPrice.toLocaleString()}</span>` : ''}
                 </p>
-                <button class="add-to-cart">Add to cart</button>
+                <button class="cart-btn">Add to Cart</button>
             </div>
         </div>
     `;
@@ -78,35 +96,39 @@ document.addEventListener('DOMContentLoaded', () => {
     displayProducts(products);
 });
 
-// Consolidated displayProducts function
+
+// Consolidated displayProducts function with updated class names
 function displayProducts(products) {
-    const productList = document.getElementById("product-list");
-    if (!productList) {
-        console.error("Product list not found!");
+    const productContainer = document.getElementById("product-list");
+    if (!productContainer) {
+        console.error("Product container not found!");
         return;
     }
 
-    productList.innerHTML = ''; // Clear previous products
+    productContainer.innerHTML = ''; // Clear previous products
 
     products.forEach(product => {
-        const productCard = document.createElement("div");
-        productCard.classList.add("product-card");
+        const productWrapper = document.createElement("div");
+        productWrapper.classList.add("item-wrapper");
 
-        productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <div class="product-details">
-                <h3><a href="product-detail.html?id=${product.id}" class="product-title">${product.name}</a></h3>
-                <p>${product.description}</p>
-                <p class="product-price">Price: Rp ${product.price.toLocaleString()}</p>
-                ${product.discount ? `<p class="product-discount">Discount: ${product.discount}%</p>` : ''}
+        productWrapper.innerHTML = `
+        <div class="product-cards-product">
+            <img src="${product.image}" alt="${product.name}" class="item-image">
+            <div class="item-details">
+                <h3><a href="product-detail.html?id=${product.id}" class="item-title">${product.name}</a></h3>
+                <p class="item-description">${product.description}</p>
+                <p class="item-price">Price: Rp ${product.price.toLocaleString()}</p>
+                ${product.discount ? `<p class="item-discount">Discount: ${product.discount}%</p>` : ''}
+            
+                </div>
             </div>
         `;
 
-        productList.appendChild(productCard);
+        productContainer.appendChild(productWrapper);
     });
 
     // Add click event to product titles for navigation
-    document.querySelectorAll(".product-title").forEach(title => {
+    document.querySelectorAll(".item-title").forEach(title => {
         title.addEventListener("click", function () {
             const productId = this.getAttribute("data-id");
             window.location.href = `product-detail.html?id=${productId}`;
@@ -125,4 +147,3 @@ function searchProducts() {
 
     displayProducts(filteredProducts);
 }
-

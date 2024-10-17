@@ -55,10 +55,16 @@
 
             if (product) {
                 productDetail.innerHTML = `
-                    <h1>${product.name}</h1>
-                    <img src="${product.image}" alt="${product.name}">
-                    <p>${product.description}</p>
-                    <p>Price: Rp ${product.price.toLocaleString()}</p>
+                <div class="productDetail">
+                    
+                <img src="${product.image}" alt="${product.name}" class="productDetail-image">
+                <div class="productDetail-information">    
+                <h1 class="productDetail-information-title">${product.name}</h1>
+                    
+                    <p class="productDetail-description">${product.description}</p>
+                    <p class="productDetail-price">Price: Rs ${product.price.toLocaleString()}</p>
+                     <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
                 `;
             } else {
                 productDetail.innerHTML = `<p>Product not found.</p>`;
